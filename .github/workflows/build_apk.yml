@@ -27,6 +27,31 @@ jobs:
       - name: Create Android platform files
         run: flutter create --platforms=android --project-name khung_hinh_tablet .
 
+      - name: Upgrade dependencies & Force compileSdk 36
+        run: |
+          flutter pub upgrade file_picker
+          if [ -f android/build.gradle.kts ]; then
+            cat << 'EOF' >> android/build.gradle.kts
+          subprojects {
+              plugins.withId("com.android.library") {
+                  extensions.configure<com.android.build.gradle.LibraryExtension> {
+                      compileSdk = 36
+                  }
+              }
+          }
+          EOF
+          else
+            cat << 'EOF' >> android/build.gradle
+          subprojects {
+              plugins.withId("com.android.library") {
+                  android {
+                      compileSdkVersion 36
+                  }
+              }
+          }
+          EOF
+          fi
+
       - name: Get dependencies
         run: flutter pub get
 
