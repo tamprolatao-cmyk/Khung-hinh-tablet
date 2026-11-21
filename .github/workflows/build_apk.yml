@@ -25,7 +25,7 @@ jobs:
           channel: 'stable'
 
       - name: Generate missing Android platform files
-        run: flutter create --platforms=android .
+        run: run: flutter create --platforms=android --project-name khung_hinh_tablet .
 
       - name: Get dependencies
         run: flutter pub get
